@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Train Animation</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        .train-container {
+            width: 100%;
+            max-width: 600px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        .train {
+            position: relative;
+            animation: moveTrain 5s linear infinite;
+        }
+        @keyframes moveTrain {
+            0% { left: -200px; }
+            100% { left: 100%; }
+        }
+        .controls {
+            margin-top: 20px;
+        }
+        .controls button {
+            padding: 10px 20px;
+            margin: 0 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="train-container">
+        <img src="https://via.placeholder.com/200x100?text=Train" alt="Train" class="train" id="train">
+    </div>
+    <p>Click the following buttons to handle animation</p>
+    <div class="controls">
+        <button onclick="startAnimation()">Start</button>
+        <button onclick="stopAnimation()">Stop</button>
+    </div>
+
+    <script>
+        const train = document.getElementById('train');
+
+        function startAnimation() {
+            train.style.animationPlayState = 'running';
+        }
+
+        function stopAnimation() {
+            train.style.animationPlayState = 'paused';
+        }
+    </script>
+</body>
+</html>

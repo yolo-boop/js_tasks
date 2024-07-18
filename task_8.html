@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    <style>
+        body {
+            background: linear-gradient(to right, #ffcc99, #ff99cc);
+            font-family: Arial, sans-serif;
+        }
+        form {
+            max-width: 400px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px 0px #000;
+        }
+        h2 {
+            text-align: center;
+            color: blue;
+        }
+        .error {
+            color: red;
+        }
+        input[type="text"], input[type="password"], textarea, select {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        input[type="radio"], input[type="checkbox"] {
+            margin-right: 10px;
+        }
+        input[type="submit"] {
+            width: 100%;
+            background-color: red;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        input[type="submit"]:hover {
+            background-color: darkred;
+        }
+        .gender, .languages {
+            display: flex;
+            align-items: center;
+        }
+        .languages input {
+            margin-right: 5px;
+        }
+        span {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <form name="registrationForm" onsubmit="return validateForm()">
+        <h2>Registration Form</h2>
+        First Name: <input type="text" name="firstName" id="firstName"><span id="firstNameError" class="error"></span><br>
+        Last Name: <input type="text" name="lastName" id="lastName"><span id="lastNameError" class="error"></span><br>
+        Email: <input type="text" name="email" id="email"><span id="emailError" class="error"></span><br>
+        Password: <input type="password" name="password" id="password"><span id="passwordError" class="error"></span><br>
+        Re-enter Password: <input type="password" name="rePassword" id="rePassword"><span id="rePasswordError" class="error"></span><br>
+        Gender:
+        <div class="gender">
+            <input type="radio" name="gender" value="male" id="male"> Male
+            <input type="radio" name="gender" value="female" id="female"> Female<span id="genderError" class="error"></span>
+        </div><br>
+        Age: <input type="text" name="age" id="age"><span id="ageError" class="error"></span><br>
+        Phone Number: <input type="text" name="phoneNumber" id="phoneNumber"><span id="phoneNumberError" class="error"></span><br>
+        Address: <textarea name="address" id="address"></textarea><span id="addressError" class="error"></span><br>
+        State: <input type="text" name="state" id="state"><span id="stateError" class="error"></span><br>
+        Country: <select name="country" id="country">
+            <option value="">Choose your country</option>
+            <option value="India">India</option>
+            <!-- Add other countries as needed -->
+        </select><span id="countryError" class="error"></span><br>
+        Languages known: 
+        <div class="languages">
+            <input type="checkbox" name="languages" value="English" id="english"> English
+            <input type="checkbox" name="languages" value="Kannada" id="kannada"> Kannada
+            <input type="checkbox" name="languages" value="Hindi" id="hindi"> Hindi
+            <input type="checkbox" name="languages" value="Telugu" id="telugu"> Telugu
+        </div><br>
+        <input type="checkbox" name="declaration" id="declaration"> Hereby I declare all the given details are true <span id="declarationError" class="error"></span><br>
+        <input type="submit" value="REGISTER">
+    </form>
+
+    <script>
+        function validateForm() {
+            let isValid = true;
+            
+            const setError = (id, message) => {
+                document.getElementById(id).innerText = message;
+                isValid = false;
+            };
+            
+            const clearError = (id) => {
+                document.getElementById(id).innerText = "";
+            };
+            
+            // First Name validation
+            const firstName = document.forms["registrationForm"]["firstName"].value;
+            if (firstName === "") {
+                setError("firstNameError", "First Name is required");
+            } else {
+                clearError("firstNameError");
+            }
+            
+            // Last Name validation
+            const lastName = document.forms["registrationForm"]["lastName"].value;
+            if (lastName === "") {
+                setError("lastNameError", "Last Name is required");
+            } else {
+                clearError("lastNameError");
+            }
+
+            // Email validation
+            const email = document.forms["registrationForm"]["email"].value;
+            const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+            if (email === "") {
+                setError("emailError", "Email is required");
+            } else if (!emailPattern.test(email)) {
+                setError("emailError", "Invalid email format");
+            } else {
+                clearError("emailError");
+            }
+            
+            // Password validation
+            const password = document.forms["registrationForm"]["password"].value;
+            if (password === "") {
+                setError("passwordError", "Password is required");
+            } else if (password.length < 6) {
+                setError("passwordError", "Password must be at least 6 characters");
+            } else {
+                clearError("passwordError");
+            }
+            
+            // Re-enter Password validation
+            const rePassword = document.forms["registrationForm"]["rePassword"].value;
+            if (rePassword === "") {
+                setError("rePasswordError", "Re-enter Password is required");
+            } else if (rePassword !== password) {
+                setError("rePasswordError", "Passwords do not match");
+            } else {
+                clearError("rePasswordError");
+            }
+            
+            // Gender validation
+            if (!document.forms["registrationForm"]["gender"].value) {
+                setError("genderError", "Gender is required");
+            } else {
+                clearError("genderError");
+            }
+            
+            // Age validation
+            const age = document.forms["registrationForm"]["age"].value;
+            if (age === "") {
+                setError("ageError", "Age is required");
+            } else if (isNaN(age) || age <= 0) {
+                setError("ageError", "Invalid age");
+            } else {
+                clearError("ageError");
+            }
+            
+            // Phone Number validation
+            const phoneNumber = document.forms["registrationForm"]["phoneNumber"].value;
+            const phonePattern = /^[0-9]{10}$/;
+            if (phoneNumber === "") {
+                setError("phoneNumberError", "Phone Number is required");
+            } else if (!phonePattern.test(phoneNumber)) {
+                setError("phoneNumberError", "Invalid phone number");
+            } else {
+                clearError("phoneNumberError");
+            }
+            
+            // Address validation
+            const address = document.forms["registrationForm"]["address"].value;
+            if (address === "") {
+                setError("addressError", "Address is required");
+            } else {
+                clearError("addressError");
+            }
+            
+            // State validation
+            const state = document.forms["registrationForm"]["state"].value;
+            if (state === "") {
+                setError("stateError", "State is required");
+            } else {
+                clearError("stateError");
+            }
+            
+            // Country validation
+            const country = document.forms["registrationForm"]["country"].value;
+            if (country === "") {
+                setError("countryError", "Country is required");
+            } else {
+                clearError("countryError");
+            }
+
+            // Declaration validation
+            const declaration = document.forms["registrationForm"]["declaration"].checked;
+            if (!declaration) {
+                setError("declarationError", "You must declare the details are true");
+            } else {
+                clearError("declarationError");
+            }
+
+            return isValid;
+        }
+    </script>
+</body>
+</html>
